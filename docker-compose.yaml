@@ -1,0 +1,29 @@
+version: '3.3'
+services:
+  app:
+    build: .
+    image: app
+    ports:
+      - '8080:8080'
+      
+    environment:
+      - RABBIT_HOST=rabbitmq
+      - ELASTICSEARCH_HOSTS=elasticsearch
+      - receiverQueueName=receivingQueue
+    
+    depends_on:
+      - rabbitmq
+      - elasticsearch
+  
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - '5672:5672' # amqp
+      - '15672:15672' # dashboard
+
+  elasticsearch:
+    image: elasticsearch:7.6.1
+    env_file: .env
+    ports:
+      - '9200:9200'
+      - '9300:9300'
