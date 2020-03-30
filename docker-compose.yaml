@@ -23,7 +23,8 @@ services:
 
   elasticsearch:
     image: elasticsearch:7.6.1
-    env_file: .env
+    environment:
+      - 'discovery.type=single-node'
     ports:
       - '9200:9200'
       - '9300:9300'
